@@ -32,7 +32,7 @@ const MovieList = ({ title, data, hideseeAll }) => {
             style={{}}
             onPress={() => navigate('AllMovieScreen', { data, title })}>
             {/* {console.log('similar movies data : ',data)} */}
-            <Text className="text-lg color-orange-500  "> all item </Text>
+            <Text className="text-lg color-orange-500  "> See all </Text>
           </TouchableOpacity>
         )}
       </View>
