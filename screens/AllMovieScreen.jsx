@@ -12,6 +12,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { image_w185 } from 'api/movieDb';
 import { MaterialIcons } from '@expo/vector-icons';
+import { goBack, navigate } from 'utils/NavigationUtils';
 const AllMovieScreen = ({ navigation, route }) => {
   const { width, height } = Dimensions.get('window');
   const { data, title } = route.params;
@@ -19,10 +20,9 @@ const AllMovieScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-800 ">
-      <View className='flex-row m-2'>
-        <TouchableOpacity className="rounded-xl p-1" onPress={() => navigation.goBack()}
-          >
-          <MaterialIcons name="arrow-back-ios" color="#fff" size={28}  />
+      <View className="m-2 flex-row">
+        <TouchableOpacity className="rounded-xl p-1" onPress={() => goBack()}>
+          <MaterialIcons name="arrow-back-ios" color="#fff" size={28} />
         </TouchableOpacity>
         <Text className="text-3xl font-bold color-white" allowFontScaling={false}>
           {title}
@@ -39,8 +39,8 @@ const AllMovieScreen = ({ navigation, route }) => {
             return (
               <TouchableWithoutFeedback
                 key={index}
-                onPress={() => navigation.navigate('Movie', item)}>
-                <View className="m-2 mb-5 mt-5 gap-2 mr-2 ">
+                onPress={() => navigate('MovieScreen', { movieId: item?.id })}>
+                <View className="m-2 mb-5 mr-2 mt-5 gap-2 ">
                   <View className="">
                     <Image
                       source={{ uri: image_w185(item.poster_path) || nullImage_url }}

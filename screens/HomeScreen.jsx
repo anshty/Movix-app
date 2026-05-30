@@ -76,9 +76,9 @@ const HomeScreen = () => {
         <StatusBar style="light" />
 
         <View className=" mx-4 flex-row items-center justify-between">
-          <TouchableOpacity onPress={() => (isLoading ? null : navigation.openDrawer())}>
+          {/* <TouchableOpacity onPress={() => (isLoading ? null : navigation.openDrawer())}>
             <Octicons name="three-bars" color="#fff" size={30} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text className="text-3xl font-bold text-white" allowFontScaling={false}>
             Movix
           </Text>

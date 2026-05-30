@@ -27,14 +27,14 @@ import {
 import YTTrailer from 'components/YTTrailer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 const { height, width } = Dimensions.get('screen');
 const ios = Platform.OS === 'ios';
 const topMargin = ios ? '' : 'mt-3';
 
 const MovieScreen = ({ route }) => {
   // start
-  const item = route.params;
+  const { movieId } = route.params;
+  console.log(movieId);
   const navigation = useNavigation();
   const [isFavourite, setFavourite] = useState(false);
   const [cast, setCast] = useState([]);
@@ -44,15 +44,17 @@ const MovieScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     // setIsLoading(true);
-    getMovieDetails(item.id);
-    getCreditsCast(item.id);
-    getSimilarMovie(item.id);
-    getMovieTrailer(item.id);
-  }, [item]);
+    if (movieId) {
+      getMovieDetails(movieId);
+      getCreditsCast(movieId);
+      getSimilarMovie(movieId);
+      getMovieTrailer(movieId);
+    }
+  }, [movieId]);
 
   useEffect(() => {
     if (!isLoading) {
-      renderItem(movie.id);
+      renderItem(movieId);
     }
   }, [isLoading]);
 
@@ -97,7 +99,6 @@ const MovieScreen = ({ route }) => {
     }
   };
 
-  
   // async storage
 
   const saveItem = async (itemID) => {
@@ -110,7 +111,7 @@ const MovieScreen = ({ route }) => {
           res.push(itemID);
           AsyncStorage.setItem('favourite', JSON.stringify(res));
           alert('Movie added!');
-          
+
           // console.log(itemID)
         }
       } else {
@@ -119,7 +120,6 @@ const MovieScreen = ({ route }) => {
         AsyncStorage.setItem('favourite', JSON.stringify(favourite));
         alert('Movie added!');
         // console.log('item :',itemID)
-       
       }
     });
   };
@@ -131,7 +131,6 @@ const MovieScreen = ({ route }) => {
     });
     await AsyncStorage.setItem('favourite', JSON.stringify(itemMark));
     alert('Movie removed');
-
   };
 
   const renderItem = async (itemID) => {
@@ -142,8 +141,6 @@ const MovieScreen = ({ route }) => {
         return item_Data == null ? setFavourite(false) : setFavourite(true);
       }
     });
-
-    
   };
 
   return (
@@ -166,7 +163,9 @@ const MovieScreen = ({ route }) => {
             <MaterialIcons name="arrow-back-ios" color="#fff" size={28} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => ( isLoading?null: isFavourite ? removeItem(movie.id) : saveItem(movie.id))}
+            onPress={() =>
+              isLoading ? null : isFavourite ? removeItem(movie.id) : saveItem(movie.id)
+            }
             style={{ backgroundColor: 'rgba(0,0,0,0.6)', padding: 10, borderRadius: 15 }}>
             <AntDesign name="heart" color={isFavourite ? '#ff0000' : '#fff'} size={28} />
           </TouchableOpacity>
